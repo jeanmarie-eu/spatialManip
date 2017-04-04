@@ -1,0 +1,17 @@
+Package: spatialManip
+Type: Package
+Version: 0.0.1
+Authors@R: person("Jean-Marie", "Lepioufle", , "jm@nexmodeling.com", c("aut","cre"),
+           person("nexModeling", role = "cph"))
+Title: spatialManip
+Description: Manipulate spatial objects.
+  The package focuses on quickly manipulating spatial objects.
+  Extracting, building, comparing (contain) spatial objects.
+Depends:
+    R (>= 3.2.5)
+Imports:
+    sp
+License: GPL-3
+Encoding: UTF-8
+LazyData: false
+RoxygenNote: 5.0.1
