@@ -15,11 +15,12 @@ data(seNorge)
 # spatial polygons
 tmp_catchment <- extract(obj=catchment_norway, indice=10,name="test")
 sp::plot(tmp_catchment)
+
 # spatial lines
 tmp_river <- extract(obj=river_norway, indice=10,name="test")
 sp::plot(tmp_river)
 
-# spatial lines
+# spatial grid
 tmp_seNorge <- extract(obj=seNorge, indice=list(offset=c(1,1),count=c(100,50)))
 sp::plot(tmp_seNorge)
 
@@ -29,7 +30,7 @@ sp::plot(tmp_seNorge)
 ###############################
 minmax(catchment_norway)
 minmax(catchment_norway,2)
-minmax(tmp_river)
+minmax(tmp_catchment)
 minmax(river_norway)
 minmax(river_norway,4)
 minmax(tmp_river)
@@ -80,14 +81,17 @@ sp::plot(tmp)
 #########################
 
 # a spatial grid
-x <- list(cellcentre.offset=c(-74500, 6450500), cellsize=c(1000,1000), cells.dim=c(1195,1550))
-tmp_seNorge <- construct(type="grid",x,proj4S=crs("+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs")) #+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs
-sp::plot(tmp_seNorge)
+tmp <- minmax(seNorge)
+x <- xGridBuild(xmin=tmp[1,1],xmax=tmp[1,2],ymin=tmp[2,1],ymax=tmp[2,2],cellsize=20000)
+tmp_norge <- construct(type="grid",x,proj4S=crs("+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs")) #+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs
+sp::plot(tmp_norge)
 
 
 ##########
 # plot   #
 ##########
+library(sp)
+
 coordsLim <- sp::bbox(tmp_catchment)
 sp::plot(tmp_catchment,asp=1,xlim=coordsLim[1,],ylim=coordsLim[2,])
 points(coordinates(seNorge)[i_seNorge,])
