@@ -4,7 +4,7 @@
 \alias{xGridBuild}
 \title{xGridBuild}
 \usage{
-xGridBuild(xmin, xmax, ymin, ymax, cellsize)
+xGridBuild(xmin, xmax, ymin, ymax, cellsize, CELLCENTER = FALSE)
 }
 \arguments{
 \item{xmin}{xmin}
@@ -16,6 +16,8 @@ xGridBuild(xmin, xmax, ymin, ymax, cellsize)
 \item{ymax}{ymax}
 
 \item{cellsize}{cellsize}
+
+\item{CELLCENTER}{boolean}
 }
 \description{
 xGridBuild
