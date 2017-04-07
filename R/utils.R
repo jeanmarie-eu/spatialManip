@@ -1,37 +1,29 @@
-#' mat2vec
+#' crs
 #'
-#' mat2vec
-#' @param indice_x indice_x
-#' @param indice_y indice_y
-#' @param Nx Nx
-#' @param Ny Ny
+#' crs
+#' @param projargs projargs
 #' @keywords spatialManip
 #' @export
 #' @examples
 #' \dontrun{
-#' mat2vec()
+#' crs()
 #' }
-mat2vec <- function(indice_x,indice_y,Nx,Ny) {
-   indice_xy <- (indice_y-1)*Nx+indice_x
-   res <- list(indice_xy=indice_xy)
- return(res)
+crs <- function(projargs){
+  res <- sp::CRS(projargs)
+  return(res)
 }
 
-#' vec2mat
+#' proj4string
 #'
-#' vec2mat
-#' @param indice indice
-#' @param Nx Nx
-#' @param Ny Ny
+#' proj4string
+#' @param projargs projargs
 #' @keywords spatialManip
 #' @export
 #' @examples
 #' \dontrun{
-#' vec2mat()
+#' proj4string()
 #' }
-vec2mat <- function(indice,Nx,Ny) {
-     indice_y <- trunc((indice-1)/Nx+1)
-     indice_x <- trunc(indice-(indice_y-1)*Nx)
-     res <- list(indice_x=indice_x,indice_y=indice_y)
-     return(res)
+proj4string <- function(projargs){
+  res <- sp::proj4string(projargs)
+  return(res)
 }

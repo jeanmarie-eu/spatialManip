@@ -47,12 +47,12 @@ extract.SpatialPoints <- function(obj, indice=NULL){
   return(spdf)
 }
 
-extract.SpatialGrid <- function(obj, indice=NULL){ #indice$offset=c(),indice$count=c()
+extract.SpatialGrid <- function(obj, indice=NULL){ #indice$offset=list(i,j),indice$count=list(i,j)
   if (!is.null(indice)){
 
     tmp <- buildGridTopo(obj)
     tmp2 <- list(
-      cellcentre.offset = c(tmp$cellcentre.offset[1]+(indice$offset[1]-1)*tmp$cellsize[1],tmp$cellcentre.offset[2]+(indice$offset[2]-1)*tmp$cellsize[2]),
+      cellcentre.offset = c(tmp$cellcentre.offset[1]+(indice$offset$i-1)*tmp$cellsize[1],tmp$cellcentre.offset$j+(indice$offset$j-1)*tmp$cellsize[2]),
       cellsize          = tmp$cellsize,
       cells.dim         = indice$count)
 
