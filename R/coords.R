@@ -21,6 +21,8 @@ coords <- function(obj,indice=NULL) {
     "SpatialGridDataFrame"     = coords.SpatialGrid(obj=obj, indice=indice),
     stop("Object type not recognized: ", type))
 
+    return(res)
+
 }
 
 coords.SpatialLines <- function(obj,indice=NULL){

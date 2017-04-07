@@ -12,12 +12,13 @@
 #' construct(...)
 #' }
 construct <- function(type,x,proj4S,...) {
-  switch(type,
+  res <- switch(type,
     "lines"    = construct_lines(x=x,proj4S=proj4S,...),
     "polygons" = construct_polygons(x=x,proj4S=proj4S,...),
     "points"   = construct_points(x=x,proj4S=proj4S),
     "grid"     = construct_grid(x=x,proj4S=proj4S),
     (message=paste0("Invalid type:", type,".")))
+  return(res)
 }
 
 
