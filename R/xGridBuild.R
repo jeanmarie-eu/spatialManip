@@ -22,6 +22,6 @@ xGridBuild <- function(xmin,xmax,ymin,ymax,cellsize,CELLCENTER=FALSE){
   }
   dimX <- round((xmax-xmin)/cellsize)
   dimY <- round((ymax-ymin)/cellsize)
-  x <- list(cellcentre.offset=c((xmin + cellsize/2), (ymin - cellsize/2)), cellsize=c(cellsize,cellsize), cells.dim=c(dimX,dimY))
+  x <- list(cellcentre.offset=c((xmin + cellsize/2), (ymin + cellsize/2)), cellsize=c(cellsize,cellsize), cells.dim=c(dimX,dimY))
   return(x)
 }
