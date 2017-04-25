@@ -32,19 +32,26 @@ indice_subspatial <- function(spatial,s) {
     # indice_crop
     if (!inherits(s,"SpatialGrid") || inherits(s,"SpatialGridDataFrame")) {
        indice_sub_crop <- crop(spatial=sRect,s=s)
+       indice_main_crop <- crop(spatial=spatial,s=s)
     } else {
       indice_sub_crop <- list(cropX = numeric(0),
                               cropY = numeric(0),
                               cropXY = numeric(0))
+      indice_main_crop <- list(cropX = numeric(0),
+                              cropY = numeric(0),
+                              cropXY = numeric(0))
     }
 
-    return(list(indice_main = indice_main,
+    return(list(indice_main = c(indice_main,indice_main_crop),
                 indice_sub = c(indice_sub,indice_sub_crop)
                 ))
   } else {
     gridTopo <- buildGridTopo(spatial)
     return(list(indice_main = list(indiceX = list(offset=1,count=gridTopo$cells.dim[1]),
-                                   indiceY = list(offset=1,count=gridTopo$cells.dim[2])),
+                                   indiceY = list(offset=1,count=gridTopo$cells.dim[2]),
+                                   cropX = numeric(0),
+                                   cropY = numeric(0),
+                                   cropXY = numeric(0)),
                 indice_sub = list(indiceX = list(offset=1,count=gridTopo$cells.dim[1]),
                                   indiceY = list(offset=1,count=gridTopo$cells.dim[2]),
                                   cropX = numeric(0),
