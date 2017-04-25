@@ -18,37 +18,67 @@ indice_subspatial <- function(spatial,s) {
     gridTopo <- buildGridTopo(spatial)
 
     # spatial2grid
-    sRect <- spatial2grid(obj=s,cellsize=gridTopo$cellsize)
+    if (!inherits(s,"SpatialGrid") || inherits(s,"SpatialGridDataFrame")) {
+       sRect <- spatial2grid(obj=s,cellsize=gridTopo$cellsize)
+    } else sRect <- s
 
-    # spatial indice
-    tmp  <- contain(sRect,spatial)
-    indice_spatial <- vec2mat(tmp,Nx=gridTopo$cells.dim[1],Ny=gridTopo$cells.dim[2])
 
-    #offset-count
-    indiceX <- offsetCount(indice_spatial$indice_x)
-    indiceY <- offsetCount(indice_spatial$indice_y)
+    # indice main-domain
+    indice_main <- indice(spatial1=sRect,spatial2=spatial)
 
-    # non-contain spatial
-    gridTopo <- buildGridTopo(sRect)
-    indice_spatial2 <- vec2mat(spatialManip::contain(s,sRect,REVERSE=TRUE),Nx=gridTopo$cells.dim[1],Ny=gridTopo$cells.dim[2])
-    cropX <- indice_spatial2$indice_x
-    cropY <- indice_spatial2$indice_y
-    cropXY <- mat2vec(cropX,cropY,Nx=gridTopo$cells.dim[1],Ny=gridTopo$cells.dim[2])$indice_xy
+    # indice sub-domain
+    indice_sub <- indice(spatial1=spatial,spatial2=sRect)
 
-    return(list(indiceX = indiceX,
-                indiceY = indiceY,
-                cropX = cropX,
-                cropY = cropY,
-                cropXY = cropXY))
+    # indice_crop
+    if (!inherits(s,"SpatialGrid") || inherits(s,"SpatialGridDataFrame")) {
+       indice_sub_crop <- crop(spatial=sRect,s=s)
+    } else {
+      indice_sub_crop <- list(cropX = numeric(0),
+                              cropY = numeric(0),
+                              cropXY = numeric(0))
+    }
+
+    return(list(indice_main = indice_main,
+                indice_sub = c(indice_sub,indice_sub_crop)
+                ))
   } else {
     gridTopo <- buildGridTopo(spatial)
-    return(list(indiceX = list(offset=1,count=gridTopo$cells.dim[1]),
-                indiceY = list(offset=1,count=gridTopo$cells.dim[2]),
-                cropX = numeric(0),
-                cropY = numeric(0),
-                cropXY = numeric(0)))
+    return(list(indice_main = list(indiceX = list(offset=1,count=gridTopo$cells.dim[1]),
+                                   indiceY = list(offset=1,count=gridTopo$cells.dim[2])),
+                indice_sub = list(indiceX = list(offset=1,count=gridTopo$cells.dim[1]),
+                                  indiceY = list(offset=1,count=gridTopo$cells.dim[2]),
+                                  cropX = numeric(0),
+                                  cropY = numeric(0),
+                                  cropXY = numeric(0))
+                ))
   }
 
+}
+
+indice <- function(spatial1,spatial2){
+  # dim Info
+  gridTopo <- buildGridTopo(spatial2)
+
+  # spatial indice
+  tmp  <- contain(spatial1,spatial2)
+  indice_spatial <- vec2mat(tmp,Nx=gridTopo$cells.dim[1],Ny=gridTopo$cells.dim[2])
+
+  indiceX <- offsetCount(indice_spatial$indice_x)
+  indiceY <- offsetCount(indice_spatial$indice_y)
+
+  return(list(indiceX = indiceX,
+              indiceY = indiceY))
+}
+
+crop <- function(spatial,s){
+  gridTopo <- buildGridTopo(spatial)
+  indice_spatial2 <- vec2mat(spatialManip::contain(s,spatial,REVERSE=TRUE),Nx=gridTopo$cells.dim[1],Ny=gridTopo$cells.dim[2])
+  cropX <- indice_spatial2$indice_x
+  cropY <- indice_spatial2$indice_y
+  cropXY <- mat2vec(cropX,cropY,Nx=gridTopo$cells.dim[1],Ny=gridTopo$cells.dim[2])$indice_xy
+  return(list(cropX = cropX,
+              cropY = cropY,
+              cropXY = cropXY))
 }
 
 #' mat2vec
