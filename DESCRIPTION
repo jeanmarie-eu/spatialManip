@@ -1,8 +1,7 @@
 Package: spatialManip
 Type: Package
 Version: 0.0.1
-Authors@R: person("Jean-Marie", "Lepioufle", , "jm@nexmodeling.com", c("aut","cre"),
-           person("nexModeling", role = "cph"))
+Authors@R: c(person("Jean-Marie", "Lepioufle", , "me@jeanmarie.eu", c("aut","cre")))
 Title: spatialManip
 Description: Manipulate spatial objects.
   The package focuses on quickly manipulating spatial objects.
